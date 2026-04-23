@@ -1,4 +1,4 @@
-package in.somuxdev.apigateway;
+package in.somuxdev.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
