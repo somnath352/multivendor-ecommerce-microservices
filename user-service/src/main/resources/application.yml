@@ -6,8 +6,8 @@ spring:
     name: user-service
   datasource:
     url: jdbc:postgresql://localhost:5433/userdb
-    username: postgres
-    password: password123
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -21,7 +21,7 @@ spring:
       port: 6379
 
 jwt:
-  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  secret: ${SECRET_KEY}
   expiration: 900000  # 15 minutes
   refresh-expiration: 604800000  # 7-days
 
