@@ -40,7 +40,7 @@ public class JwtService {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
     }
 
@@ -70,7 +70,13 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public long getRemainingExpiryMillis(String token) {
+        Date expiration = extractExpiration(token);
+        return expiration.getTime() - System.currentTimeMillis();
+    }
+
+
+        public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }

@@ -20,6 +20,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailsService;
+    private final TokenBlacklistService blacklistService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -31,6 +32,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String jwt = authHeader.substring(7);
+        if(blacklistService.isBlacklisted(jwt)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write(
+                    "{\"success\": false, " +
+                            "\"message\": \"Token has been invalidated. Please login again\"}"
+            );
+            return;
+        }
         String userEmail = jwtService.extractUsername(jwt);
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {

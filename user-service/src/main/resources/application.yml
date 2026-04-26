@@ -5,7 +5,7 @@ spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/userdb
+    url: jdbc:postgresql://localhost:5433/userdb
     username: postgres
     password: password123
   jpa:
@@ -15,16 +15,21 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 jwt:
   secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-  expiration: 86400000  # 24 hours
+  expiration: 900000  # 15 minutes
   refresh-expiration: 604800000  # 7-days
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
+#    enabled: false
 
 management:
   endpoints:
